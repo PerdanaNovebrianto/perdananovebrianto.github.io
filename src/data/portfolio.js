@@ -15,18 +15,21 @@ import {
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons'
 
+export const clouds = [
+  { top: '7%', left: '-127px', duration: '37s', delay: '-9s', size: '6.75rem', opacity: 'opacity-55' },
+  { top: '58%', left: '-283px', duration: '61s', delay: '-34s', size: '10.5rem', opacity: 'opacity-30' },
+  { top: '19%', left: '-391px', duration: '44s', delay: '-16s', size: '5.125rem', opacity: '' },
+  { top: '49%', left: '-68px', duration: '53s', delay: '-41s', size: '8.25rem', opacity: 'opacity-40' },
+  { top: '73%', left: '-214px', duration: '29s', delay: '-5s', size: '7rem', opacity: 'opacity-25' },
+  { top: '31%', left: '-347px', duration: '72s', delay: '-23s', size: '11.75rem', opacity: 'opacity-45' },
+]
+
 export const sections = [
   { id: 'profile', title: 'Sky', label: 'Profile' },
   { id: 'experience', title: 'Horizon', label: 'Experience' },
   { id: 'skills', title: 'Transition', label: 'Skills' },
   { id: 'education', title: 'Sunset', label: 'Education' },
   { id: 'contact', title: 'Abyss', label: 'Contact' },
-]
-
-export const clouds = [
-  { top: '10%', left: '-100px', duration: '45s', delay: null, size: '7.5rem', opacity: '' },
-  { top: '25%', left: '-200px', duration: '60s', delay: '-10s', size: '11.25rem', opacity: 'opacity-40' },
-  { top: '5%', left: '-300px', duration: '35s', delay: '-5s', size: '5.625rem', opacity: 'opacity-50' },
 ]
 
 export const experiences = [
@@ -136,5 +139,4 @@ export const socialLinks = [
   { name: 'Dribbble', icon: faDribbble, href: '#' },
 ]
 
-export const portraitSrc =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuDNn1UXLD-xzAICg7IGRQ1hG_CmuiTcdsOWcXJB0knxzSUBi9Cp3Wogr3G5A4Yv4J2bWMlQd38kbS2FB3eNG7OrncvCojaScKqnd5hYLCSVyJYTwgG4pcUD9WElZfT2yVXX-Mzb1pKnIIC2y_dQSCSqtF5szlFsTjWDJqqj7MtRCQYH7Qh5XC1f1uc9XJ-VH-Zm2hPb6gf1P-1ySsHsAV6DaFfaGr6uxmJJAfhRkHozsMtXZnUeGOCcSA9yglKZAM3Wo6Psk5MzCpw'
+export const portraitSrc = 'src/assets/photo.png'

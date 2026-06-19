@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted } from 'vue'
-import { faChevronDown, faCircleCheck, faCloud, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faCircleCheck, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
+import CloudGroup from './components/CloudGroup.vue'
 import ExperienceItem from './components/ExperienceItem.vue'
 import SkillCard from './components/SkillCard.vue'
 import { useParallaxScroll } from './composables/useParallaxScroll.js'
 import {
-  clouds,
   contacts,
   credentials,
   education,
@@ -13,68 +13,49 @@ import {
   portraitSrc,
   sections,
   skillCategories,
-  socialLinks,
 } from './data/portfolio.js'
 
-const { activeSection, sunStyle, cloudStyle, scrollToSection, observeSections } = useParallaxScroll()
+const {
+  activeSection,
+  sunRef,
+  sunDiscRef,
+  sunGlowRef,
+  backClouds,
+  frontClouds,
+  portraitRef,
+  scrollToSection,
+  observeSections,
+} = useParallaxScroll()
 
-const navLinkClass = (id) =>
-  activeSection.value === id
-    ? 'font-label-caps text-label-caps text-primary font-bold border-b-2 border-primary pb-1'
-    : 'font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-300'
+const sectionIds = sections.map(({ id }) => id)
+
+const NAV_LINK_ACTIVE =
+  'font-label-caps text-label-caps text-primary font-bold border-b-2 border-primary pb-1'
+const NAV_LINK_IDLE =
+  'font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-300'
+
+const navLinkClass = (id) => (activeSection.value === id ? NAV_LINK_ACTIVE : NAV_LINK_IDLE)
 
 const educationAccentClass = {
   primary: 'bg-primary',
   'secondary-fixed': 'bg-secondary-fixed',
 }
 
-onMounted(() => {
-  observeSections(sections.map((section) => section.id))
-})
+onMounted(() => observeSections(sectionIds))
 </script>
 
 <template>
-  <div
-    id="parallax-sun"
-    :style="sunStyle"
-  />
-
-  <div class="parallax-bg overflow-hidden" aria-hidden="true">
-    <div
-      v-for="(cloud, index) in clouds"
-      :key="index"
-      class="cloud"
-      :class="cloud.opacity"
-      :style="{
-        top: cloud.top,
-        left: cloud.left,
-        animationDuration: cloud.duration,
-        animationDelay: cloud.delay ?? undefined,
-        ...cloudStyle(index),
-      }"
-    >
-      <FontAwesomeIcon :icon="faCloud" class="text-white" :style="{ fontSize: cloud.size }" />
+  <div class="sky-layers" aria-hidden="true">
+    <CloudGroup :clouds="backClouds" />
+    <div ref="sunRef" id="parallax-sun">
+      <div ref="sunGlowRef" class="sunshine" />
+      <div ref="sunDiscRef" class="sun" />
     </div>
+    <CloudGroup :clouds="frontClouds" front />
   </div>
 
-  <nav class="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-4" aria-label="Section navigation">
-    <a
-      v-for="section in sections"
-      :key="section.id"
-      href="#"
-      class="section-dot"
-      :class="{ active: activeSection === section.id }"
-      :title="section.title"
-      :aria-label="section.label"
-      @click.prevent="scrollToSection(section.id)"
-    />
-  </nav>
-
   <header class="fixed top-0 w-full z-100 backdrop-blur-xl border-b border-white/30 bg-black/20">
-    <div class="flex justify-between items-center px-gutter py-4 w-full max-w-container-max mx-auto">
-      <div class="font-headline-sm text-headline-sm tracking-tighter text-white font-bold">
-        ADRIAN VOID
-      </div>
+    <div class="flex justify-center items-center px-gutter py-4 w-full max-w-container-max mx-auto">
       <nav class="hidden md:flex gap-8 items-center" aria-label="Main navigation">
         <a
           v-for="section in sections"
@@ -86,18 +67,16 @@ onMounted(() => {
           {{ section.label }}
         </a>
       </nav>
-      <button type="button" class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-caps text-label-caps font-bold active:scale-95 transition-transform">
-        Resume
-      </button>
     </div>
   </header>
 
-  <main class="relative z-10">
+  <main class="relative z-1">
     <section id="profile" class="min-h-screen flex flex-col justify-center items-center px-gutter text-center pt-24">
       <div class="max-w-4xl space-y-stack-lg">
         <img
+          ref="portraitRef"
           :src="portraitSrc"
-          alt="Adrian Void portrait"
+          alt="portrait"
           width="192"
           height="192"
           decoding="async"
@@ -183,19 +162,6 @@ onMounted(() => {
     </section>
 
     <section id="contact" class="py-section-padding px-gutter relative overflow-hidden flex items-center md:h-48">
-      <div class="waves h-[200px] min-h-[200px]" aria-hidden="true">
-        <svg class="w-full h-full" preserveAspectRatio="none" shape-rendering="auto" viewBox="0 24 150 28" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-          </defs>
-          <g class="parallax-wave">
-            <use fill="rgba(0,40,91,0.7)" x="48" href="#gentle-wave" y="0" />
-            <use fill="rgba(0,68,147,0.5)" x="48" href="#gentle-wave" y="3" />
-            <use fill="rgba(0,91,192,0.3)" x="48" href="#gentle-wave" y="5" />
-            <use fill="#0b0f10" x="48" href="#gentle-wave" y="7" />
-          </g>
-        </svg>
-      </div>
       <div class="relative z-10 max-w-container-max mx-auto w-full">
         <div class="space-y-stack-lg text-center mx-auto max-w-2xl bg-black/40 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-white/10">
           <h2 class="font-display-lg text-headline-md text-secondary tracking-tight text-shadow">
@@ -224,25 +190,19 @@ onMounted(() => {
     </section>
   </main>
 
-  <footer class="bg-surface-container-lowest border-t border-white/10 w-full relative z-20">
-    <div class="flex flex-col md:flex-row justify-between items-center px-gutter py-stack-lg w-full max-w-container-max mx-auto gap-stack-lg">
-      <div class="font-headline-sm text-headline-sm text-on-surface font-bold">
-        ADRIAN VOID
-      </div>
-      <div class="font-body-md text-body-md text-outline">
-        © 2024 Adrian Void. All rights reserved.
-      </div>
-      <div class="flex gap-8">
-        <a
-          v-for="link in socialLinks"
-          :key="link.name"
-          :href="link.href"
-          class="text-secondary-fixed hover:text-secondary-container transition-all hover:translate-y-[-2px] flex items-center gap-2"
-        >
-          <FontAwesomeIcon :icon="link.icon" class="text-sm" />
-          {{ link.name }}
-        </a>
-      </div>
+  <footer>
+    <div class="waves" aria-hidden="true">
+      <svg class="w-full h-full" preserveAspectRatio="none" shape-rendering="auto" viewBox="0 24 150 28" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax-wave">
+          <use fill="rgba(0,40,91,0.7)" x="48" href="#gentle-wave" y="0" />
+          <use fill="rgba(0,68,147,0.5)" x="48" href="#gentle-wave" y="3" />
+          <use fill="rgba(0,91,192,0.3)" x="48" href="#gentle-wave" y="5" />
+          <use fill="#0b0f10" x="48" href="#gentle-wave" y="7" />
+        </g>
+      </svg>
     </div>
   </footer>
 </template>
