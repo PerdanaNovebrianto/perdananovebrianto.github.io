@@ -42,7 +42,7 @@ const educationAccentClass = {
   'secondary-fixed': 'bg-secondary-fixed',
 }
 
-const openContact = (url) => {
+const openUrl = (url) => {
   window.open(url, '_blank')
 }
 
@@ -80,11 +80,11 @@ onMounted(() => {
   </header>
 
   <div
-    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-0 animate-bounce pointer-events-none transition-opacity duration-300"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 z-0 animate-bounce pointer-events-none transition-opacity duration-300"
     :style="{ opacity: scrollHintOpacity }"
     aria-hidden="true"
   >
-    <FontAwesomeIcon :icon="faChevronDown" class="text-xl md:text-3xl text-white/60 text-shadow" />
+    <FontAwesomeIcon :icon="faChevronDown" class="text-xl md:text-2xl text-white/60 text-shadow" />
   </div>
 
   <main class="relative z-1">
@@ -105,11 +105,19 @@ onMounted(() => {
         <p class="font-headline-md text-headline-sm md:text-headline-md text-on-surface max-w-3xl mx-auto font-light text-shadow">
           {{ profile.title }}
         </p>
-        <div class="pt-stack-sm flex flex-row gap-4 justify-center">
-          <button type="button" class="w-full max-w-40 md:max-w-48 px-6 py-3 md:px-8 md:py-4 glass-panel rounded-lg font-bold cursor-pointer">
+        <div class="pt-stack-md flex flex-row gap-4 justify-center">
+          <button
+            type="button"
+            class="w-full max-w-40 md:max-w-48 px-6 py-3 md:px-8 md:py-4 glass-panel rounded-lg font-bold cursor-pointer"
+            @click="openUrl('https://github.com/PerdanaNovebrianto')"
+          >
             Explore Work
           </button>
-          <button type="button" class="w-full max-w-40 md:max-w-48 px-6 py-3 md:px-8 md:py-4 glass-panel rounded-lg font-bold cursor-pointer" @click="scrollToSection('contact')">
+          <button
+            type="button"
+            class="w-full max-w-40 md:max-w-48 px-6 py-3 md:px-8 md:py-4 glass-panel rounded-lg font-bold cursor-pointer"
+            @click="scrollToSection('contact')"
+          >
             Contact Me
           </button>
         </div>
@@ -179,20 +187,21 @@ onMounted(() => {
             Ready to start a project together? Whether you have a clear vision or just a spark of an idea, I'm here to bring it to life.
           </p>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div
+            <button
               v-for="contact in contacts"
               :key="contact.label"
+              type="button"
               class="flex items-center gap-4 w-full max-w-sm text-left glass-panel p-4 rounded-xl cursor-pointer"
-              @click="openContact(contact.value)"
+              @click="openUrl(contact.value)"
             >
               <div class="min-w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center">
                 <FontAwesomeIcon :icon="contact.icon" class="text-secondary text-xl" />
               </div>
               <div>
                 <p class="text-label-caps font-bold text-secondary">{{ contact.label }}</p>
-                <p class="text-body-sm md:text-body-md">{{ contact.title }}</p>
+                <p class="text-body-sm md:text-body-md break-all">{{ contact.title }}</p>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>
