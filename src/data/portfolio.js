@@ -1,142 +1,168 @@
 import {
+  faUser,
   faBriefcase,
-  faChessKnight,
-  faClapperboard,
-  faCode,
   faEnvelope,
-  faLocationDot,
-  faPenRuler,
+  faDisplay,
   faStar,
+  faServer,
   faTerminal,
+  faBrain,
+  faScrewdriverWrench,
+  faHandshake,
 } from '@fortawesome/free-solid-svg-icons'
 import {
-  faDribbble,
   faGithub,
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons'
+import { getYears } from '../composables/useHelper.js'
 
 export const clouds = [
-  { top: '7%', left: '-127px', duration: '37s', delay: '-9s', size: '6.75rem', opacity: 'opacity-55' },
-  { top: '58%', left: '-283px', duration: '61s', delay: '-34s', size: '10.5rem', opacity: 'opacity-30' },
-  { top: '19%', left: '-391px', duration: '44s', delay: '-16s', size: '5.125rem', opacity: '' },
-  { top: '49%', left: '-68px', duration: '53s', delay: '-41s', size: '8.25rem', opacity: 'opacity-40' },
-  { top: '73%', left: '-214px', duration: '29s', delay: '-5s', size: '7rem', opacity: 'opacity-25' },
-  { top: '31%', left: '-347px', duration: '72s', delay: '-23s', size: '11.75rem', opacity: 'opacity-45' },
+  { top: '8%', duration: '37s', delay: '0s', size: '6.75rem', opacity: 'opacity-55' },
+  { top: '56%', duration: '61s', delay: '-18s', size: '10.5rem', opacity: 'opacity-30' },
+  { top: '19%', duration: '44s', delay: '-8s', size: '5.125rem', opacity: '' },
+  { top: '43%', duration: '53s', delay: '-31s', size: '8.25rem', opacity: 'opacity-40' },
+  { top: '70%', duration: '29s', delay: '-4s', size: '7rem', opacity: 'opacity-25' },
+  { top: '31%', duration: '72s', delay: '-24s', size: '11.75rem', opacity: 'opacity-45' },
 ]
 
 export const sections = [
-  { id: 'profile', title: 'Sky', label: 'Profile' },
-  { id: 'experience', title: 'Horizon', label: 'Experience' },
-  { id: 'skills', title: 'Transition', label: 'Skills' },
-  { id: 'education', title: 'Sunset', label: 'Education' },
-  { id: 'contact', title: 'Abyss', label: 'Contact' },
+  { id: 'profile', title: 'Sky', label: 'Profile', icon: faUser },
+  { id: 'experience', title: 'Horizon', label: 'Experience', icon: faBriefcase },
+  { id: 'skills', title: 'Transition', label: 'Skills', icon: faBrain },
+  // { id: 'education', title: 'Sunset', label: 'Education', icon: faGraduationCap },
+  { id: 'contact', title: 'Abyss', label: 'Contact', icon: faEnvelope },
 ]
+
+export const profile = {
+  photo: 'src/assets/photo.png',
+  name: 'Perdana Novebrianto Khristi',
+  title: `Web Developer with ${getYears('2018-01-01', new Date().toISOString().split('T')[0])}+ years of experience building responsive web applications. Skilled in the Vue.js ecosystem to create reusable components, optimize web performance, and integrate RESTful APIs.`,
+}
 
 export const experiences = [
   {
-    period: '2021 — PRESENT',
-    title: 'Senior Creative Director',
-    company: 'Aether Digital Agency',
-    description:
-      'Leading a cross-functional team of 15 designers and developers. Orchestrating the visual strategy for Fortune 500 tech clients with a focus on immersive UX.',
+    period: 'January 2020 — PRESENT',
+    title: 'Frontend Web Developer',
+    company: 'PT. Inosoft Trans Sistem',
+    description: [
+      'Working on frontend web development based on Vue.js',
+      'Working on frontend web development based on Laravel (blade or Inertia.js)',
+      'Creating reusable components for multiple Vue.js based projects',
+      'Implementing the design into the application view',
+      'Usually use Tailwind.css or Bootstrap',
+      'Use AI to assist optimize and test',
+      'Connect data using rest API to application view',
+      'Manage application version and code with GIT',
+      'Collaboration with project managers and backend teams using Jira tools',
+    ],
     accent: 'primary',
-    icon: faBriefcase,
+    icon: faStar,
     align: 'left',
   },
   {
-    period: '2018 — 2021',
-    title: 'Lead Interaction Designer',
-    company: 'Submarine UI Labs',
-    description:
-      'Specialized in motion-heavy web experiences. Developed proprietary animation libraries used in award-winning interactive portfolios.',
+    period: 'October — November 2021',
+    title: 'Full Stack Web Developer',
+    company: 'Side Project at FKKMK UGM',
+    description:[
+      'Developed of the Early Childhood Screening Assessment (ECSA) questionnaire web application to help screen emotional and social disorders in children aged 1.5-5 years and parents using Laravel.'
+    ],
     accent: 'secondary-fixed',
-    icon: faCode,
+    icon: faHandshake,
     align: 'right',
   },
   {
-    period: '2019 — ONGOING',
-    title: 'Project "Abyssal"',
-    company: 'Open Source Contribution',
-    description:
-      'Building a WebGL-based fluid simulation engine for narrative-driven web experiences. Featured in Creative Review Magazine.',
-    accent: 'tertiary',
-    icon: faStar,
+    period: 'August — October 2021',
+    title: 'Full Stack Web Developer',
+    company: 'Side Project at Kagama UGM',
+    description:[
+      'Developed an admin system for K-GAMA Health android application using laravel.'
+    ],
+    accent: 'secondary-fixed',
+    icon: faHandshake,
     align: 'left',
+  },
+  {
+    period: 'July 2018 — December 2019',
+    title: 'Full Stack Web Developer',
+    company: 'CV. Kinariyatama',
+    description: [
+      'Developed of the message history feature on admin system for the Matur Dokter android application at the Klaten Health Office (Dinas Kesehatan Klaten) which is used as an integrated emergency management system using CodeIgniter.',
+      'Developed of the Online Bride and Groom (CATIN) web application at the Boyolali Health Office (Dinas Kesehatan Boyolali) which is used as a learning medium and certification of prospective brides using Laravel.',
+      'Developed of the Permata Bersinar web application at the Prambanan Health Center (Puskesmas Prambanan) which is used as a posyandu remaja using CodeIgniter.',
+    ],
+    accent: 'primary',
+    icon: faStar,
+    align: 'right',
   },
 ]
 
 export const skillCategories = [
   {
-    title: 'UI Design',
-    icon: faPenRuler,
+    title: 'Frontend Development',
+    icon: faDisplay,
     accent: 'primary',
     barClass: 'bg-primary',
     skills: [
-      { name: 'Figma & Prototyping', score: 95 },
-      { name: 'Design Systems', score: 90 },
+      { name: 'Vue.js', score: 90 },
+      { name: 'React.js', score: 20 },
+      { name: 'HTML', score: 90 },
+      { name: 'CSS', score: 90 },
+      { name: 'JavaScript', score: 80 },
+      { name: 'TypeScript', score: 10 },
+      { name: 'Tailwind CSS', score: 80 },
+      { name: 'Bootstrap', score: 90 },
     ],
   },
   {
-    title: 'Development',
-    icon: faTerminal,
+    title: 'Backend Development',
+    icon: faServer,
     accent: 'secondary-fixed',
     barClass: 'bg-secondary-fixed',
     skills: [
-      { name: 'React & Three.js', score: 88 },
-      { name: 'WebGL & Shaders', score: 82 },
+      { name: 'Laravel', score: 70 },
+      { name: 'CodeIgniter', score: 60 },
+      { name: 'Golang', score: 20 },
+      { name: 'PHP', score: 70 },
+      { name: 'MySQL', score: 60 },
+      { name: 'PostgreSQL', score: 20 },
+      { name: 'MongoDB', score: 20 },
     ],
   },
   {
-    title: 'Motion',
-    icon: faClapperboard,
-    accent: 'tertiary',
-    barClass: 'bg-tertiary',
-    skills: [
-      { name: 'After Effects', score: 92 },
-      { name: 'GSAP & Framer Motion', score: 85 },
-    ],
-  },
-  {
-    title: 'Strategy',
-    icon: faChessKnight,
-    accent: 'on-surface-variant',
-    barClass: 'bg-white/30',
-    skills: [
-      { name: 'UX Research', score: 80 },
-      { name: 'Branding & Identity', score: 85 },
-    ],
-  },
-]
-
-export const education = [
-  {
-    degree: 'Master of Fine Arts in Digital Media',
-    school: 'Rhode Island School of Design | 2016 — 2018',
-    note: 'Focus on interactive storytelling and emergent technologies.',
+    title: 'DevOps',
+    icon: faTerminal,
     accent: 'primary',
+    barClass: 'bg-primary',
+    skills: [
+      { name: 'Git', score: 70 },
+      { name: 'CI/CD', score: 60 },
+    ],
   },
   {
-    degree: 'B.S. in Computer Science & Design',
-    school: 'Stanford University | 2012 — 2016',
-    note: 'Dual degree combining technical engineering with visual arts.',
+    title: 'Tools',
+    icon: faScrewdriverWrench,
     accent: 'secondary-fixed',
+    barClass: 'bg-secondary-fixed',
+    skills: [
+      { name: 'Cursor', score: 70 },
+      { name: 'Postman', score: 60 },
+      { name: 'Figma', score: 60 },
+      { name: 'Jira', score: 60 },
+      { name: 'Firebase', score: 50 },
+    ],
   },
 ]
 
-export const credentials = [
-  'Google UX Professional Certificate',
-  'Advanced Three.js Masterclass',
-]
+// export const education = [
+//   {
+//     degree: 'Bachelor of Informatics Education',
+//     school: 'Yogyakarta State University | 2014 — 2098',
+//     note: 'It combines technical computing skills with professional teaching methods.',
+//     accent: 'primary',
+//   },
+// ]
 
 export const contacts = [
-  { icon: faEnvelope, label: 'EMAIL', value: 'hello@adrianvoid.design' },
-  { icon: faLocationDot, label: 'LOCATION', value: 'Los Angeles, CA / Remote' },
+  { icon: faEnvelope, label: 'EMAIL', title: 'perdananovebrianto@gmail.com', value: 'https://mail.google.com/mail/u/0/?fs=1&to=perdananovebrianto@gmail.com&tf=cm' },
+  { icon: faLinkedin, label: 'LINKEDIN', title: 'perdananovebrianto', value: 'https://www.linkedin.com/in/perdananovebrianto/' },
 ]
-
-export const socialLinks = [
-  { name: 'GitHub', icon: faGithub, href: '#' },
-  { name: 'LinkedIn', icon: faLinkedin, href: '#' },
-  { name: 'Dribbble', icon: faDribbble, href: '#' },
-]
-
-export const portraitSrc = 'src/assets/photo.png'

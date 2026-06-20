@@ -19,7 +19,7 @@ defineProps({
       v-for="(cloud, index) in clouds"
       :key="index"
       class="cloud-wrapper"
-      :style="{ top: cloud.top, left: cloud.left }"
+      :style="{ top: cloud.top }"
     >
       <div
         class="cloud"

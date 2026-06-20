@@ -6,17 +6,17 @@ import ExperienceItem from './components/ExperienceItem.vue'
 import SkillCard from './components/SkillCard.vue'
 import { useParallaxScroll } from './composables/useParallaxScroll.js'
 import {
+  profile,
   contacts,
-  credentials,
-  education,
+  // education,
   experiences,
-  portraitSrc,
   sections,
   skillCategories,
 } from './data/portfolio.js'
 
 const {
   activeSection,
+  scrollHintOpacity,
   sunRef,
   sunDiscRef,
   sunGlowRef,
@@ -30,15 +30,19 @@ const {
 const sectionIds = sections.map(({ id }) => id)
 
 const NAV_LINK_ACTIVE =
-  'font-label-caps text-label-caps text-primary font-bold border-b-2 border-primary pb-1'
+  'font-label-caps text-headline-md text-primary font-bold border-primary'
 const NAV_LINK_IDLE =
-  'font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors duration-300'
+  'font-label-caps text-headline-md text-on-surface hover:text-primary transition-colors duration-300'
 
 const navLinkClass = (id) => (activeSection.value === id ? NAV_LINK_ACTIVE : NAV_LINK_IDLE)
 
 const educationAccentClass = {
   primary: 'bg-primary',
   'secondary-fixed': 'bg-secondary-fixed',
+}
+
+const openContact = (url) => {
+  window.open(url, '_blank')
 }
 
 onMounted(() => observeSections(sectionIds))
@@ -54,9 +58,9 @@ onMounted(() => observeSections(sectionIds))
     <CloudGroup :clouds="frontClouds" front />
   </div>
 
-  <header class="fixed top-0 w-full z-100 backdrop-blur-xl border-b border-white/30 bg-black/20">
+  <header class="fixed top-0 w-full z-100 glass-panel shadow-md">
     <div class="flex justify-center items-center px-gutter py-4 w-full max-w-container-max mx-auto">
-      <nav class="hidden md:flex gap-8 items-center" aria-label="Main navigation">
+      <nav class="flex gap-8 items-center" aria-label="Main navigation">
         <a
           v-for="section in sections"
           :key="section.id"
@@ -64,67 +68,72 @@ onMounted(() => observeSections(sectionIds))
           :class="navLinkClass(section.id)"
           @click.prevent="scrollToSection(section.id)"
         >
-          {{ section.label }}
+          <FontAwesomeIcon :icon="section.icon" class="block md:hidden text-xl" />
+          <div class="hidden md:block">{{ section.label }}</div>
         </a>
       </nav>
     </div>
   </header>
 
+  <div
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-0 animate-bounce pointer-events-none transition-opacity duration-300"
+    :style="{ opacity: scrollHintOpacity }"
+    aria-hidden="true"
+  >
+    <FontAwesomeIcon :icon="faChevronDown" class="text-xl md:text-3xl text-white/60 text-shadow" />
+  </div>
+
   <main class="relative z-1">
-    <section id="profile" class="min-h-screen flex flex-col justify-center items-center px-gutter text-center pt-24">
-      <div class="max-w-4xl space-y-stack-lg">
+    <section id="profile" class="min-h-screen flex flex-col justify-center items-center px-gutter text-center pt-20 pb-8">
+      <div class="max-w-4xl space-y-stack-sm md:space-y-stack-md">
         <img
           ref="portraitRef"
-          :src="portraitSrc"
+          :src="profile.photo"
           alt="portrait"
           width="192"
           height="192"
           decoding="async"
-          class="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-white/30 object-cover shadow-2xl mx-auto mb-stack-lg"
+          class="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-white/30 object-cover shadow-2xl mx-auto mb-stack-sm md:mb-stack-md"
         >
-        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface tracking-tighter text-shadow">
-          ADRIAN VOID
+        <h1 class="font-display-md text-display-lg-mobile md:text-display-lg text-on-surface tracking-tighter text-shadow">
+          {{ profile.name }}
         </h1>
-        <p class="font-headline-md text-headline-sm md:text-headline-md text-on-surface/80 max-w-2xl mx-auto font-light">
-          Designing Digital Odysseys at the intersection of technical precision and narrative storytelling.
+        <p class="font-headline-md text-headline-sm md:text-headline-md text-on-surface max-w-3xl mx-auto font-light text-shadow">
+          {{ profile.title }}
         </p>
-        <div class="pt-stack-lg flex flex-col md:flex-row gap-4 justify-center">
-          <button type="button" class="px-8 py-4 bg-primary text-on-primary rounded-lg font-bold hover:bg-primary-container transition-all">
+        <div class="pt-stack-sm flex flex-row gap-4 justify-center">
+          <button type="button" class="w-full max-w-40 md:max-w-48 px-6 py-3 md:px-8 md:py-4 glass-panel rounded-lg font-bold cursor-pointer">
             Explore Work
           </button>
-          <button type="button" class="px-8 py-4 glass-panel rounded-lg font-bold hover:bg-white/10 transition-all" @click="scrollToSection('contact')">
+          <button type="button" class="w-full max-w-40 md:max-w-48 px-6 py-3 md:px-8 md:py-4 glass-panel rounded-lg font-bold cursor-pointer" @click="scrollToSection('contact')">
             Contact Me
           </button>
         </div>
       </div>
-      <div class="absolute bottom-10 animate-bounce" aria-hidden="true">
-        <FontAwesomeIcon :icon="faChevronDown" class="text-4xl text-white" />
-      </div>
     </section>
 
     <section id="experience" class="py-section-padding px-gutter max-w-container-max mx-auto relative">
-      <div class="text-center mb-24">
-        <h2 class="font-headline-md text-headline-md mb-4 text-shadow">Work Experience</h2>
+      <div class="text-center mb-20">
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow">Work Experience</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
       </div>
       <div class="relative space-y-12">
-        <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 h-full w-px bg-white/20 hidden md:block" aria-hidden="true" />
         <ExperienceItem
-          v-for="job in experiences"
-          :key="job.title"
+          v-for="(job, index) in experiences"
+          :key="`${job.company}-${job.period}`"
           v-bind="job"
+          :is-last="index === experiences.length - 1"
         />
       </div>
     </section>
 
     <section id="skills" class="py-section-padding px-gutter max-w-container-max mx-auto">
-      <div class="text-center mb-24">
-        <h2 class="font-headline-md text-headline-md mb-4 text-shadow">Mastered Crafts</h2>
-        <p class="text-body-lg text-on-surface-variant max-w-xl mx-auto">
-          A blend of technical prowess and artistic intuition refined over a decade.
-        </p>
+      <div class="text-center mb-12">
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow">Skills</h2>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
+        <p class="text-headline-sm text-on-surface max-w-xl mx-auto mt-4">A refined skills along the journey.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <SkillCard
           v-for="category in skillCategories"
           :key="category.title"
@@ -133,15 +142,15 @@ onMounted(() => observeSections(sectionIds))
       </div>
     </section>
 
-    <section id="education" class="py-section-padding px-gutter">
+    <!-- <section id="education" class="py-section-padding px-gutter">
+      <div class="text-center mb-20">
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow">Education</h2>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
+      </div>
       <div class="max-w-4xl mx-auto glass-panel p-12 rounded-2xl relative overflow-hidden">
         <div class="absolute top-0 right-0 p-8 opacity-10" aria-hidden="true">
-          <FontAwesomeIcon :icon="faGraduationCap" class="text-9xl" />
+          <FontAwesomeIcon :icon="faGraduationCap" class="text-6xl" />
         </div>
-        <h2 class="font-headline-md text-headline-md mb-12 flex items-center gap-4 text-shadow">
-          <FontAwesomeIcon :icon="faGraduationCap" class="text-primary" />
-          Education &amp; Credentials
-        </h2>
         <div class="space-y-12">
           <div v-for="item in education" :key="item.degree" class="flex gap-6">
             <div class="w-1 h-auto rounded-full" :class="educationAccentClass[item.accent]" />
@@ -151,37 +160,33 @@ onMounted(() => observeSections(sectionIds))
               <p class="text-body-md mt-4 opacity-70 italic">{{ item.note }}</p>
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 pt-8 border-t border-white/10">
-            <div v-for="credential in credentials" :key="credential" class="flex items-center gap-3">
-              <FontAwesomeIcon :icon="faCircleCheck" class="text-primary" />
-              <span class="text-body-md">{{ credential }}</span>
-            </div>
-          </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section id="contact" class="py-section-padding px-gutter relative overflow-hidden flex items-center md:h-48">
+    <section id="contact" class="py-section-padding px-gutter max-w-container-max mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow">Contact</h2>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
+      </div>
       <div class="relative z-10 max-w-container-max mx-auto w-full">
-        <div class="space-y-stack-lg text-center mx-auto max-w-2xl bg-black/40 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-white/10">
-          <h2 class="font-display-lg text-headline-md text-secondary tracking-tight text-shadow">
-            Let's Dive In
-          </h2>
-          <p class="text-body-lg text-on-surface/80">
+        <div class="space-y-stack-xl text-center mx-auto max-w-4xl glass-panel rounded-xl p-6 md:p-8">
+          <p class="text-body-lg text-on-surface/80 mb-8">
             Ready to start a project together? Whether you have a clear vision or just a spark of an idea, I'm here to bring it to life.
           </p>
-          <div class="space-y-6 pt-8 flex flex-col items-center">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div
               v-for="contact in contacts"
               :key="contact.label"
-              class="flex items-center gap-4 w-full max-w-xs text-left glass-panel p-4 rounded-xl"
+              class="flex items-center gap-4 w-full max-w-sm text-left glass-panel p-4 rounded-xl cursor-pointer"
+              @click="openContact(contact.value)"
             >
-              <div class="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center">
+              <div class="min-w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center">
                 <FontAwesomeIcon :icon="contact.icon" class="text-secondary text-xl" />
               </div>
               <div>
                 <p class="text-label-caps font-bold text-secondary">{{ contact.label }}</p>
-                <p class="text-body-lg">{{ contact.value }}</p>
+                <p class="text-body-sm md:text-body-md">{{ contact.title }}</p>
               </div>
             </div>
           </div>

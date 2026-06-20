@@ -72,18 +72,32 @@
   --text-body-md: 16px;
   --text-body-md--font-weight: 400;
   --text-body-md--line-height: 1.6;
-  --text-display-lg: 72px;
+  --text-body-sm: 14px;
+  --text-body-sm--font-weight: 400;
+  --text-body-sm--line-height: 1.6;
+  --text-display-lg: 64px;
   --text-display-lg--font-weight: 700;
   --text-display-lg--letter-spacing: -0.02em;
   --text-display-lg--line-height: 1.1;
-  --text-display-lg-mobile: 40px;
+  --text-display-lg-mobile: 32px;
   --text-display-lg-mobile--font-weight: 700;
   --text-display-lg-mobile--letter-spacing: -0.01em;
   --text-display-lg-mobile--line-height: 1.2;
-  --text-headline-md: 32px;
+  --text-display-md: 40px;
+  --text-display-md--font-weight: 700;
+  --text-display-md--letter-spacing: -0.02em;
+  --text-display-md--line-height: 1.1;
+  --text-display-md-mobile: 20px;
+  --text-display-md-mobile--font-weight: 700;
+  --text-display-md-mobile--letter-spacing: -0.01em;
+  --text-display-md-mobile--line-height: 1.2;
+  --text-headline-lg: 20px;
+  --text-headline-lg--font-weight: 600;
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-md: 18px;
   --text-headline-md--font-weight: 600;
   --text-headline-md--line-height: 1.3;
-  --text-headline-sm: 24px;
+  --text-headline-sm: 16px;
   --text-headline-sm--font-weight: 600;
   --text-headline-sm--line-height: 1.4;
   --text-label-caps: 12px;
@@ -118,15 +132,29 @@
 
 .cloud-wrapper {
   position: absolute;
+  left: 0;
   will-change: transform;
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s ease;
+}
+
+.glass-panel:hover {
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+}
+
+header.glass-panel:hover {
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transform: none;
 }
 
 .parallax-bg {
@@ -206,13 +234,6 @@
   animation: sunshines 2s infinite;
 }
 
-.svg-inline--fa {
-  display: inline-block;
-  height: 1em;
-  overflow: visible;
-  vertical-align: -0.125em;
-}
-
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -222,9 +243,9 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 200px;
-  min-height: 100px;
-  max-height: 200px;
+  height: 160px;
+  min-height: 80px;
+  max-height: 160px;
   z-index: 0;
 }
 
@@ -249,10 +270,10 @@ html {
 
 @keyframes float {
   from {
-    transform: translateX(-200px);
+    transform: translateX(-100%);
   }
   to {
-    transform: translateX(calc(100vw + 200px));
+    transform: translateX(calc(100vw + 100%));
   }
 }
 
@@ -288,5 +309,14 @@ html {
   .sunshine {
     animation: none;
     opacity: 0.35;
+  }
+}
+
+@layer base {
+  .svg-inline--fa {
+    display: inline-block;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -0.125em;
   }
 }

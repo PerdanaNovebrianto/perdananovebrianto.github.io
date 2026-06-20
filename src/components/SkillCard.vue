@@ -20,8 +20,8 @@ const accentTextClass = {
 
 <template>
   <div class="glass-panel p-8 rounded-2xl space-y-6">
-    <div class="flex items-center gap-4 mb-2">
-      <div class="w-12 h-12 glass-panel rounded-full flex items-center justify-center">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="min-w-12 h-12 glass-panel rounded-full flex items-center justify-center">
         <FontAwesomeIcon :icon="icon" class="text-2xl" :class="accentTextClass[accent]" />
       </div>
       <h3 class="font-headline-sm text-headline-sm">{{ title }}</h3>

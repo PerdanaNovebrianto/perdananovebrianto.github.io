@@ -29,7 +29,6 @@ function clamp(min, value, max) {
   return Math.min(Math.max(value, min), max)
 }
 
-/** Sun size & layout; base size from portrait when available, else viewport fallback. */
 function getSunLayout(viewportWidth, portraitSize) {
   const isMobile = viewportWidth < 768
   const isTablet = viewportWidth >= 768 && viewportWidth < 1024
@@ -112,6 +111,7 @@ function partitionCloudLayers(defs) {
 
 export function useParallaxScroll() {
   const activeSection = ref('profile')
+  const scrollHintOpacity = ref(1)
 
   const sunRef = ref(null)
   const sunDiscRef = ref(null)
@@ -123,7 +123,6 @@ export function useParallaxScroll() {
   let rafId = null
   let observer = null
   let portraitObserver = null
-  /** Frozen start/end in document space; converted to viewport Y on each frame. */
   let sunAnchors = null
 
   function getPortraitSize() {
@@ -207,6 +206,10 @@ export function useParallaxScroll() {
     if (sunGlowRef.value) {
       sunGlowRef.value.style.background = gradient
     }
+
+    const fadeStart = 0.88
+    scrollHintOpacity.value =
+      p <= fadeStart ? 1 : Math.max(0, 1 - (p - fadeStart) / (1 - fadeStart))
   }
 
   function onScroll() {
@@ -227,17 +230,33 @@ export function useParallaxScroll() {
   }
 
   function observeSections(sectionIds) {
+    const sectionVisibility = new Map(sectionIds.map((id) => [id, 0]))
+
     observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        for (const entry of entries) {
+          sectionVisibility.set(
+            entry.target.id,
+            entry.isIntersecting ? entry.intersectionRatio : 0,
+          )
+        }
 
-        if (visible[0]) {
-          activeSection.value = visible[0].target.id
+        let bestId = activeSection.value
+        let bestRatio = 0
+
+        for (const id of sectionIds) {
+          const ratio = sectionVisibility.get(id) ?? 0
+          if (ratio > bestRatio) {
+            bestRatio = ratio
+            bestId = id
+          }
+        }
+
+        if (bestRatio > 0) {
+          activeSection.value = bestId
         }
       },
-      { rootMargin: '-20% 0px -55% 0px', threshold: [0, 0.25, 0.5] },
+      { rootMargin: '-20% 0px -55% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
     )
 
     for (const id of sectionIds) {
@@ -273,6 +292,7 @@ export function useParallaxScroll() {
 
   return {
     activeSection,
+    scrollHintOpacity,
     sunRef,
     sunDiscRef,
     sunGlowRef,
