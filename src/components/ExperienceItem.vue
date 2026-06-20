@@ -33,7 +33,7 @@ const accentMap = {
 
     <div class="md:grid md:grid-cols-[minmax(0,5fr)_auto_minmax(0,5fr)] md:items-start md:gap-x-8">
       <div
-        class="glass-panel p-stack-lg rounded-xl"
+        class="glass-panel animate-fade-in p-stack-lg rounded-xl"
         :class="align === 'left' ? 'md:col-start-1 md:row-start-1' : 'md:col-start-3 md:row-start-1'"
       >
         <span class="font-label-caps text-label-caps mb-2 block" :class="accentMap[accent].label">{{ period }}</span>

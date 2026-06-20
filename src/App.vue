@@ -25,6 +25,7 @@ const {
   portraitRef,
   scrollToSection,
   observeSections,
+  observeFadeIn,
 } = useParallaxScroll()
 
 const sectionIds = sections.map(({ id }) => id)
@@ -45,7 +46,10 @@ const openContact = (url) => {
   window.open(url, '_blank')
 }
 
-onMounted(() => observeSections(sectionIds))
+onMounted(() => {
+  observeSections(sectionIds)
+  observeFadeIn()
+})
 </script>
 
 <template>
@@ -113,7 +117,7 @@ onMounted(() => observeSections(sectionIds))
     </section>
 
     <section id="experience" class="py-section-padding px-gutter max-w-container-max mx-auto relative">
-      <div class="text-center mb-20">
+      <div class="animate-fade-in text-center mb-20">
         <h2 class="font-headline-md text-display-md mb-4 text-shadow">Work Experience</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
       </div>
@@ -128,7 +132,7 @@ onMounted(() => observeSections(sectionIds))
     </section>
 
     <section id="skills" class="py-section-padding px-gutter max-w-container-max mx-auto">
-      <div class="text-center mb-12">
+      <div class="animate-fade-in text-center mb-12">
         <h2 class="font-headline-md text-display-md mb-4 text-shadow">Skills</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
         <p class="text-headline-sm text-on-surface max-w-xl mx-auto mt-4">A refined skills along the journey.</p>
@@ -143,7 +147,7 @@ onMounted(() => observeSections(sectionIds))
     </section>
 
     <!-- <section id="education" class="py-section-padding px-gutter">
-      <div class="text-center mb-20">
+      <div class="animate-fade-in text-center mb-20">
         <h2 class="font-headline-md text-display-md mb-4 text-shadow">Education</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
       </div>
@@ -165,12 +169,12 @@ onMounted(() => observeSections(sectionIds))
     </section> -->
 
     <section id="contact" class="py-section-padding px-gutter max-w-container-max mx-auto">
-      <div class="text-center mb-12">
+      <div class="animate-fade-in text-center mb-12">
         <h2 class="font-headline-md text-display-md mb-4 text-shadow">Contact</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
       </div>
       <div class="relative z-10 max-w-container-max mx-auto w-full">
-        <div class="space-y-stack-xl text-center mx-auto max-w-4xl glass-panel rounded-xl p-6 md:p-8">
+        <div class="space-y-stack-xl text-center mx-auto max-w-4xl glass-panel animate-fade-in rounded-xl p-6 md:p-8">
           <p class="text-body-lg text-on-surface/80 mb-8">
             Ready to start a project together? Whether you have a clear vision or just a spark of an idea, I'm here to bring it to life.
           </p>

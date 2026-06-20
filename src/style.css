@@ -145,10 +145,48 @@
   transition: 0.3s ease;
 }
 
-.glass-panel:hover {
+.glass-panel:hover:not(.animate-fade-in) {
   background: rgba(0, 0, 0, 0.3);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   transform: translateY(-4px);
+}
+
+.animate-fade-in {
+  opacity: 0;
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.animate-fade-in.fade-from-bottom {
+  transform: translate3d(0, 2rem, 0);
+}
+
+.animate-fade-in.fade-from-top {
+  transform: translate3d(0, -2rem, 0);
+}
+
+.animate-fade-in.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.glass-panel.animate-fade-in {
+  transition: opacity 0.65s ease, transform 0.65s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel.animate-fade-in:not(.is-visible):hover {
+  background: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.glass-panel.animate-fade-in.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.glass-panel.animate-fade-in.is-visible:hover {
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transform: translate3d(0, -4px, 0);
 }
 
 header.glass-panel:hover {
@@ -309,6 +347,12 @@ html {
   .sunshine {
     animation: none;
     opacity: 0.35;
+  }
+
+  .animate-fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 

@@ -122,8 +122,60 @@ export function useParallaxScroll() {
 
   let rafId = null
   let observer = null
+  let fadeInObserver = null
   let portraitObserver = null
   let sunAnchors = null
+  let lastScrollY = 0
+  let scrollDirection = 'down'
+
+  function updateScrollDirection() {
+    const scrollY = getScrollY()
+
+    if (scrollY > lastScrollY) {
+      scrollDirection = 'down'
+    } else if (scrollY < lastScrollY) {
+      scrollDirection = 'up'
+    }
+
+    lastScrollY = scrollY
+  }
+
+  function getFadeFromTop(entry) {
+    const { boundingClientRect, rootBounds, isIntersecting } = entry
+
+    if (!rootBounds) {
+      return scrollDirection === 'up'
+    }
+
+    const rootMid = rootBounds.top + rootBounds.height / 2
+
+    if (isIntersecting) {
+      return boundingClientRect.top < rootMid
+    }
+
+    return boundingClientRect.bottom < rootMid
+  }
+
+  function applyFadeDirection(el, entry = null) {
+    const fromTop = entry ? getFadeFromTop(entry) : scrollDirection === 'up'
+
+    el.classList.toggle('fade-from-top', fromTop)
+    el.classList.toggle('fade-from-bottom', !fromTop)
+  }
+
+  function setFadeVisibility(el, entry, visible) {
+    applyFadeDirection(el, entry)
+
+    if (!visible) {
+      el.classList.remove('is-visible')
+      return
+    }
+
+    el.classList.remove('is-visible')
+    requestAnimationFrame(() => {
+      el.classList.add('is-visible')
+    })
+  }
 
   function getPortraitSize() {
     if (!portraitRef.value) return null
@@ -213,6 +265,8 @@ export function useParallaxScroll() {
   }
 
   function onScroll() {
+    updateScrollDirection()
+
     if (rafId !== null) return
     rafId = requestAnimationFrame(() => {
       applyParallax()
@@ -227,6 +281,26 @@ export function useParallaxScroll() {
 
   function scrollToSection(id) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  function observeFadeIn() {
+    const targets = document.querySelectorAll('.animate-fade-in')
+
+    if (!targets.length) return
+
+    fadeInObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          setFadeVisibility(entry.target, entry, entry.isIntersecting)
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.15 },
+    )
+
+    for (const el of targets) {
+      applyFadeDirection(el)
+      fadeInObserver.observe(el)
+    }
   }
 
   function observeSections(sectionIds) {
@@ -270,6 +344,7 @@ export function useParallaxScroll() {
     window.addEventListener('resize', onLayoutChange, { passive: true })
 
     await nextTick()
+    lastScrollY = getScrollY()
     captureSunAnchors()
 
     if (portraitRef.value) {
@@ -288,6 +363,7 @@ export function useParallaxScroll() {
     portraitObserver?.disconnect()
     if (rafId !== null) cancelAnimationFrame(rafId)
     observer?.disconnect()
+    fadeInObserver?.disconnect()
   })
 
   return {
@@ -301,5 +377,6 @@ export function useParallaxScroll() {
     portraitRef,
     scrollToSection,
     observeSections,
+    observeFadeIn,
   }
 }
