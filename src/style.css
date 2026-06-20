@@ -231,20 +231,6 @@ header.glass-panel:hover {
   animation-duration: 20s;
 }
 
-.section-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
-}
-
-.section-dot.active {
-  background: white;
-  transform: scale(1.5);
-  box-shadow: 0 0 10px white;
-}
-
 .sky-layers {
   position: fixed;
   inset: 0;
