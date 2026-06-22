@@ -99,10 +99,10 @@ onMounted(() => {
           decoding="async"
           class="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-white/30 object-cover shadow-2xl mx-auto mb-stack-sm md:mb-stack-md"
         >
-        <h1 class="font-display-md text-display-lg-mobile md:text-display-lg text-on-surface tracking-tighter text-shadow-sm">
+        <h1 class="font-display-md text-display-lg-mobile md:text-display-lg text-on-surface tracking-tighter text-shadow-lg">
           {{ profile.name }}
         </h1>
-        <p class="font-headline-md text-headline-sm md:text-headline-md text-on-surface max-w-3xl mx-auto font-light text-shadow-sm">
+        <p class="font-headline-md text-headline-sm md:text-headline-md text-on-surface max-w-3xl mx-auto font-light text-shadow-md">
           {{ profile.title }}
         </p>
         <div class="pt-stack-md flex flex-row gap-4 justify-center">
@@ -126,7 +126,7 @@ onMounted(() => {
 
     <section id="experience" class="py-section-padding px-gutter max-w-container-max mx-auto relative">
       <div class="animate-fade-in text-center mb-20">
-        <h2 class="font-headline-md text-display-md mb-4 text-shadow-sm">Work Experience</h2>
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow-lg">Work Experience</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
       </div>
       <div class="relative space-y-12">
@@ -141,7 +141,7 @@ onMounted(() => {
 
     <section id="skills" class="py-section-padding px-gutter max-w-container-max mx-auto">
       <div class="animate-fade-in text-center mb-12">
-        <h2 class="font-headline-md text-display-md mb-4 text-shadow-sm">Skills</h2>
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow-lg">Skills</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
         <p class="text-headline-sm text-on-surface max-w-xl mx-auto mt-4">A refined skills along the journey.</p>
       </div>
@@ -156,7 +156,7 @@ onMounted(() => {
 
     <!-- <section id="education" class="py-section-padding px-gutter">
       <div class="animate-fade-in text-center mb-20">
-        <h2 class="font-headline-md text-display-md mb-4 text-shadow-sm">Education</h2>
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow-lg">Education</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
       </div>
       <div class="max-w-4xl mx-auto glass-panel p-12 rounded-2xl relative overflow-hidden">
@@ -178,7 +178,7 @@ onMounted(() => {
 
     <section id="contact" class="py-section-padding px-gutter max-w-container-max mx-auto">
       <div class="animate-fade-in text-center mb-12">
-        <h2 class="font-headline-md text-display-md mb-4 text-shadow-sm">Contact</h2>
+        <h2 class="font-headline-md text-display-md mb-4 text-shadow-lg">Contact</h2>
         <div class="w-20 h-1 bg-primary mx-auto rounded-full" />
       </div>
       <div class="relative z-10 max-w-container-max mx-auto w-full">
