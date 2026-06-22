@@ -62,7 +62,7 @@ onMounted(() => {
     <CloudGroup :clouds="frontClouds" front />
   </div>
 
-  <header class="fixed top-0 w-full z-100 glass-panel shadow-md">
+  <header class="fixed top-0 w-full z-100 glass-panel glass-panel--header shadow-md">
     <div class="flex justify-center items-center px-gutter py-4 w-full max-w-container-max mx-auto">
       <nav class="flex gap-8 items-center" aria-label="Main navigation">
         <a

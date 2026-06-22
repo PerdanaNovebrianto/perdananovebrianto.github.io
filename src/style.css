@@ -146,9 +146,13 @@
   transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+.glass-panel--header:hover,
 .glass-panel:hover:not(.animate-fade-in) {
   background: rgba(0, 0, 0, 0.3);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel:hover:not(.animate-fade-in):not(.glass-panel--header) {
   transform: translateY(-4px);
 }
 
@@ -189,12 +193,6 @@
   background: rgba(0, 0, 0, 0.3);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   transform: translate3d(0, -4px, 0);
-}
-
-header.glass-panel:hover {
-  background: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  transform: none;
 }
 
 .parallax-bg {
