@@ -15,6 +15,7 @@ import {
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons'
 import { getYears } from '../composables/useHelper.js'
+import photoUrl from '../assets/photo.png'
 
 export const clouds = [
   { top: '8%', duration: '37s', delay: '0s', size: '6.75rem', opacity: 'opacity-55' },
@@ -34,7 +35,7 @@ export const sections = [
 ]
 
 export const profile = {
-  photo: 'src/assets/photo.png',
+  photo: photoUrl,
   name: 'Perdana Novebrianto Khristi',
   title: `Web Developer with ${getYears('2018-01-01', new Date().toISOString().split('T')[0])}+ years of experience building responsive web applications. Skilled in the Vue.js ecosystem to create reusable components, optimize web performance, and integrate RESTful APIs.`,
 }
