@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-  base: '/perdananovebrianto.github.io/',
+  base: '/',
   plugins: [vue(), tailwindcss()],
   resolve: {
     alias: {
