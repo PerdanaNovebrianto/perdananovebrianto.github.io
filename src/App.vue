@@ -16,13 +16,13 @@ import {
 
 const {
   activeSection,
-  scrollHintOpacity,
   sunRef,
   sunDiscRef,
   sunGlowRef,
   backClouds,
   frontClouds,
   portraitRef,
+  scrollHintRef,
   scrollToSection,
   observeSections,
   observeFadeIn,
@@ -80,8 +80,8 @@ onMounted(() => {
   </header>
 
   <div
-    class="fixed bottom-4 left-1/2 -translate-x-1/2 z-0 animate-bounce pointer-events-none transition-opacity duration-300"
-    :style="{ opacity: scrollHintOpacity }"
+    ref="scrollHintRef"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 z-0 animate-bounce pointer-events-none transition-opacity duration-300 opacity-100"
     aria-hidden="true"
   >
     <FontAwesomeIcon :icon="faChevronDown" class="text-xl md:text-2xl text-white/60 text-shadow-sm" />

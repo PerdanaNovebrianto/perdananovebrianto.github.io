@@ -8,6 +8,9 @@ const SUN_GRADIENT = {
   toB: [0xff, 0x8a, 0x3d],
 }
 
+const MOBILE_MAX_WIDTH = 768
+const MOBILE_APPEARANCE_STEP = 0.03
+
 function lerpRgb(from, to, amount) {
   const mix = (a, b) => Math.round(a + (b - a) * amount)
   return `rgb(${mix(from[0], to[0], amount)}, ${mix(from[1], to[1], amount)}, ${mix(from[2], to[2], amount)})`
@@ -15,6 +18,10 @@ function lerpRgb(from, to, amount) {
 
 function lerpChannel(from, to, amount) {
   return Math.round(from + (to - from) * amount)
+}
+
+function isMobileViewport() {
+  return window.innerWidth < MOBILE_MAX_WIDTH
 }
 
 function getScrollY() {
@@ -30,8 +37,8 @@ function clamp(min, value, max) {
 }
 
 function getSunLayout(viewportWidth, portraitSize) {
-  const isMobile = viewportWidth < 768
-  const isTablet = viewportWidth >= 768 && viewportWidth < 1024
+  const isMobile = viewportWidth < MOBILE_MAX_WIDTH
+  const isTablet = viewportWidth >= MOBILE_MAX_WIDTH && viewportWidth < 1024
   const maxClamp = isMobile ? 100 : isTablet ? 110 : 120
   const size = portraitSize ? clamp(72, portraitSize, maxClamp) : clamp(72, viewportWidth * 0.1, maxClamp)
 
@@ -44,7 +51,7 @@ function getSunLayout(viewportWidth, portraitSize) {
   }
 }
 
-function getFooterMidDocY(scrollY) {
+function readFooterMidDocY(scrollY) {
   const footer = document.querySelector('footer')
   if (!footer) {
     return scrollY + window.innerHeight * 0.75
@@ -111,12 +118,12 @@ function partitionCloudLayers(defs) {
 
 export function useParallaxScroll() {
   const activeSection = ref('profile')
-  const scrollHintOpacity = ref(1)
 
   const sunRef = ref(null)
   const sunDiscRef = ref(null)
   const sunGlowRef = ref(null)
   const portraitRef = ref(null)
+  const scrollHintRef = ref(null)
 
   const { back: backClouds, front: frontClouds } = partitionCloudLayers(cloudDefs)
 
@@ -125,6 +132,9 @@ export function useParallaxScroll() {
   let fadeInObserver = null
   let portraitObserver = null
   let sunAnchors = null
+  let cachedFooterMidDocY = null
+  let cachedSunLayout = null
+  let lastAppearanceP = -1
   let lastScrollY = 0
   let scrollDirection = 'down'
 
@@ -177,21 +187,32 @@ export function useParallaxScroll() {
     })
   }
 
-  function getPortraitSize() {
+  function readPortraitSize() {
     if (!portraitRef.value) return null
 
     const { width, height } = portraitRef.value.getBoundingClientRect()
     return Math.max(width, height)
   }
 
+  function refreshSunDimensions() {
+    const portraitSize = readPortraitSize()
+    cachedSunLayout = getSunLayout(window.innerWidth, portraitSize)
+
+    if (sunRef.value) {
+      sunRef.value.style.width = `${cachedSunLayout.size}px`
+      sunRef.value.style.height = `${cachedSunLayout.size}px`
+    }
+  }
+
   function captureSunAnchors() {
     const scrollY = getScrollY()
-    const endDocY = getFooterMidDocY(scrollY)
+    cachedFooterMidDocY = readFooterMidDocY(scrollY)
+    const endDocY = cachedFooterMidDocY
     const endX = window.innerWidth / 2
     const portrait = portraitRef.value
 
     if (!portrait) {
-      const layout = getSunLayout(window.innerWidth, null)
+      const layout = cachedSunLayout ?? getSunLayout(window.innerWidth, null)
       sunAnchors = {
         startDocY: scrollY + window.innerHeight * layout.startTop / 100,
         endDocY,
@@ -211,12 +232,13 @@ export function useParallaxScroll() {
   }
 
   function getSunPosition(p, scrollY, centerX, layout) {
+    const footerViewportY = (cachedFooterMidDocY ?? scrollY + window.innerHeight * 0.75) - scrollY
+
     if (!sunAnchors) {
       const startY = window.innerHeight * layout.startTop / 100
-      const endY = getFooterMidDocY(scrollY) - scrollY
       return {
-        left: centerX,
-        top: startY + (endY - startY) * p,
+        x: centerX,
+        y: startY + (footerViewportY - startY) * p,
       }
     }
 
@@ -224,27 +246,17 @@ export function useParallaxScroll() {
     const docY = startDocY + (endDocY - startDocY) * p
 
     return {
-      left: startX + (endX - startX) * p,
-      top: docY - scrollY,
+      x: startX + (endX - startX) * p,
+      y: docY - scrollY,
     }
   }
 
-  function applyParallax() {
-    const scrollY = getScrollY()
-    const p = Math.min(scrollY / getDocHeight(), 1)
-    const centerX = window.innerWidth / 2
-    const layout = getSunLayout(window.innerWidth, getPortraitSize())
-    const { left: sunX, top: sunY } = getSunPosition(p, scrollY, centerX, layout)
-
-    if (sunRef.value) {
-      const scale = layout.startScale + p * layout.scaleGrowth
-
-      sunRef.value.style.width = `${layout.size}px`
-      sunRef.value.style.height = `${layout.size}px`
-      sunRef.value.style.left = `${sunX}px`
-      sunRef.value.style.top = `${sunY}px`
-      sunRef.value.style.transform = `translate3d(-50%, -50%, 0) scale(${scale})`
+  function applySunAppearance(p, layout, force = false) {
+    if (!force && isMobileViewport()) {
+      if (Math.abs(p - lastAppearanceP) < MOBILE_APPEARANCE_STEP) return
     }
+
+    lastAppearanceP = p
 
     const colorStart = lerpRgb(SUN_GRADIENT.fromA, SUN_GRADIENT.toA, p)
     const colorEnd = lerpRgb(SUN_GRADIENT.fromB, SUN_GRADIENT.toB, p)
@@ -258,10 +270,31 @@ export function useParallaxScroll() {
     if (sunGlowRef.value) {
       sunGlowRef.value.style.background = gradient
     }
+  }
 
+  function applyScrollHintOpacity(p) {
     const fadeStart = 0.88
-    scrollHintOpacity.value =
-      p <= fadeStart ? 1 : Math.max(0, 1 - (p - fadeStart) / (1 - fadeStart))
+    const opacity = p <= fadeStart ? 1 : Math.max(0, 1 - (p - fadeStart) / (1 - fadeStart))
+
+    if (scrollHintRef.value) {
+      scrollHintRef.value.style.opacity = String(opacity)
+    }
+  }
+
+  function applyParallax(forceAppearance = false) {
+    const scrollY = getScrollY()
+    const p = Math.min(scrollY / getDocHeight(), 1)
+    const layout = cachedSunLayout ?? getSunLayout(window.innerWidth, null)
+    const { x: sunX, y: sunY } = getSunPosition(p, scrollY, window.innerWidth / 2, layout)
+
+    if (sunRef.value) {
+      const scale = layout.startScale + p * layout.scaleGrowth
+      sunRef.value.style.transform =
+        `translate3d(${sunX}px, ${sunY}px, 0) translate3d(-50%, -50%, 0) scale(${scale})`
+    }
+
+    applySunAppearance(p, layout, forceAppearance)
+    applyScrollHintOpacity(p)
   }
 
   function onScroll() {
@@ -275,12 +308,15 @@ export function useParallaxScroll() {
   }
 
   function onLayoutChange() {
+    refreshSunDimensions()
     captureSunAnchors()
-    applyParallax()
+    lastAppearanceP = -1
+    applyParallax(true)
   }
 
   function scrollToSection(id) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    const behavior = isMobileViewport() ? 'auto' : 'smooth'
+    document.getElementById(id)?.scrollIntoView({ behavior })
   }
 
   function observeFadeIn() {
@@ -305,6 +341,9 @@ export function useParallaxScroll() {
 
   function observeSections(sectionIds) {
     const sectionVisibility = new Map(sectionIds.map((id) => [id, 0]))
+    const sectionThresholds = isMobileViewport()
+      ? [0, 0.5, 1]
+      : [0, 0.1, 0.25, 0.5, 0.75, 1]
 
     observer = new IntersectionObserver(
       (entries) => {
@@ -330,7 +369,7 @@ export function useParallaxScroll() {
           activeSection.value = bestId
         }
       },
-      { rootMargin: '-20% 0px -55% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+      { rootMargin: '-20% 0px -55% 0px', threshold: sectionThresholds },
     )
 
     for (const id of sectionIds) {
@@ -345,6 +384,7 @@ export function useParallaxScroll() {
 
     await nextTick()
     lastScrollY = getScrollY()
+    refreshSunDimensions()
     captureSunAnchors()
 
     if (portraitRef.value) {
@@ -353,7 +393,7 @@ export function useParallaxScroll() {
       portraitObserver.observe(portraitRef.value)
     }
 
-    applyParallax()
+    applyParallax(true)
   })
 
   onUnmounted(() => {
@@ -368,13 +408,13 @@ export function useParallaxScroll() {
 
   return {
     activeSection,
-    scrollHintOpacity,
     sunRef,
     sunDiscRef,
     sunGlowRef,
     backClouds,
     frontClouds,
     portraitRef,
+    scrollHintRef,
     scrollToSection,
     observeSections,
     observeFadeIn,

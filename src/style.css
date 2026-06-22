@@ -132,11 +132,12 @@ html {
 
 #parallax-sun {
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 2;
   pointer-events: none;
-  transform: translate(-50%, -50%);
   transform-origin: center center;
-  will-change: transform, width, height;
+  will-change: transform;
 }
 
 .animate-fade-in {
@@ -415,9 +416,56 @@ html {
 }
 
 @media (max-width: 768px) {
+  body {
+    scroll-behavior: auto;
+  }
+
   .waves {
     height: 100px;
     min-height: 100px;
+  }
+
+  .sky-layers {
+    contain: paint;
+  }
+
+  .glass-panel {
+    background: rgba(0, 0, 0, 0.28);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .cloud {
+    will-change: auto;
+  }
+
+  .cloud-wrapper {
+    will-change: auto;
+  }
+
+  .cloud-icon {
+    -webkit-filter: none;
+    filter: none;
+    opacity: 0.92;
+  }
+
+  .animate-fade-in {
+    will-change: auto;
+  }
+
+  .animate-fade-in.is-visible {
+    will-change: auto;
+  }
+
+  .sunshine {
+    -webkit-animation-duration: 3s;
+    animation-duration: 3s;
+  }
+
+  .parallax-wave > use:nth-child(1),
+  .parallax-wave > use:nth-child(2) {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
   }
 }
 
