@@ -106,6 +106,26 @@
   --text-label-caps--line-height: 1;
 }
 
+body {
+  @apply font-body-md text-on-surface;
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #adc7ff 0%,
+    #4a8eff 25%,
+    #ffb74a 75%,
+    #f47820 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+html {
+  min-height: 100vh;
+}
+
 #app {
   position: relative;
 }
@@ -197,54 +217,6 @@
   transform: translateY(-4px);
 }
 
-@supports (min-height: 100dvh) {
-  html,
-  body {
-    min-height: 100dvh;
-  }
-}
-
-@supports not (
-  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
-) {
-  .glass-panel {
-    background: rgba(0, 0, 0, 0.55);
-  }
-
-  .glass-panel--header:hover,
-  .glass-panel:hover:not(.animate-fade-in) {
-    background: rgba(0, 0, 0, 0.65);
-  }
-
-  .glass-panel.animate-fade-in:not(.is-visible):hover {
-    background: rgba(0, 0, 0, 0.55);
-  }
-
-  .glass-panel.animate-fade-in.is-visible:hover {
-    background: rgba(0, 0, 0, 0.65);
-  }
-}
-
-body {
-  @apply font-body-md text-on-surface;
-  min-height: 100vh;
-  background: linear-gradient(
-    to bottom,
-    #adc7ff 0%,
-    #4a8eff 25%,
-    #ffb74a 75%,
-    #f47820 100%
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-html {
-  min-height: 100vh;
-}
-
 .parallax-bg {
   position: absolute;
   top: 0;
@@ -331,6 +303,43 @@ html {
   min-height: 80px;
   max-height: 160px;
   z-index: 0;
+}
+
+@layer base {
+  .svg-inline--fa {
+    display: inline-block;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -0.125em;
+  }
+}
+
+@supports (min-height: 100dvh) {
+  html,
+  body {
+    min-height: 100dvh;
+  }
+}
+
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .glass-panel {
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .glass-panel--header:hover,
+  .glass-panel:hover:not(.animate-fade-in) {
+    background: rgba(0, 0, 0, 0.65);
+  }
+
+  .glass-panel.animate-fade-in:not(.is-visible):hover {
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .glass-panel.animate-fade-in.is-visible:hover {
+    background: rgba(0, 0, 0, 0.65);
+  }
 }
 
 @keyframes float {
@@ -434,14 +443,5 @@ html {
   .sunshine {
     animation: none;
     opacity: 0.35;
-  }
-}
-
-@layer base {
-  .svg-inline--fa {
-    display: inline-block;
-    height: 1em;
-    overflow: visible;
-    vertical-align: -0.125em;
   }
 }
