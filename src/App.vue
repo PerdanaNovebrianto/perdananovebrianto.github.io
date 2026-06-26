@@ -88,7 +88,7 @@ onMounted(() => {
   </div>
 
   <main class="relative z-1">
-    <section id="profile" class="min-h-screen flex flex-col justify-center items-center px-gutter text-center pt-20 pb-8">
+    <section id="profile" class="min-h-screen flex flex-col justify-center items-center px-gutter text-center pt-16 md:pt-20 pb-8">
       <div class="max-w-4xl space-y-stack-sm md:space-y-stack-md">
         <img
           ref="portraitRef"
