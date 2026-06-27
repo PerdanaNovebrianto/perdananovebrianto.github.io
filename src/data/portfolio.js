@@ -37,7 +37,7 @@ export const sections = [
 export const profile = {
   photo: photoUrl,
   name: 'Perdana Novebrianto Khristi',
-  title: `Web Developer with ${getYears('2018-01-01', new Date().toISOString().split('T')[0])}+ years of experience building responsive web applications. Skilled in the Vue.js ecosystem to create reusable components, optimize web performance, and integrate RESTful APIs.`,
+  title: `Experienced web developer with ${getYears('2018-01-01', new Date().toISOString().split('T')[0])}+ years of experience building responsive web applications. Skilled in the Vue.js ecosystem to create reusable components, optimize web performance, and integrate RESTful APIs.`
 }
 
 export const experiences = [
@@ -105,11 +105,11 @@ export const skillCategories = [
     barClass: 'bg-primary',
     skills: [
       { name: 'Vue.js', score: 90 },
-      { name: 'React.js', score: 20 },
+      { name: 'React.js', score: 30 },
       { name: 'HTML', score: 90 },
       { name: 'CSS', score: 90 },
       { name: 'JavaScript', score: 80 },
-      { name: 'TypeScript', score: 10 },
+      { name: 'TypeScript', score: 20 },
       { name: 'Tailwind CSS', score: 80 },
       { name: 'Bootstrap', score: 90 },
     ],
@@ -122,11 +122,11 @@ export const skillCategories = [
     skills: [
       { name: 'Laravel', score: 70 },
       { name: 'CodeIgniter', score: 60 },
-      { name: 'Golang', score: 20 },
+      { name: 'Go', score: 30 },
       { name: 'PHP', score: 70 },
       { name: 'MySQL', score: 60 },
-      { name: 'PostgreSQL', score: 20 },
-      { name: 'MongoDB', score: 20 },
+      { name: 'PostgreSQL', score: 30 },
+      { name: 'MongoDB', score: 30 },
     ],
   },
   {
